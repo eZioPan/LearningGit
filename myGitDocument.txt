@@ -1,0 +1,295 @@
+----新建一个git仓库----
+
+git init <repoName>
+
+
+----克隆一个git仓库----
+
+
+git clone <URL> [<NewName>]
+
+从<URL>地址克隆一个仓库，可以使用<NewName>来进行仓库的重命名
+
+
+----设置用户信息（用户名以及用户邮箱）----
+
+git config --global user.name <someName>
+git cinfig --global user.email <someUser@someplace>
+
+参数
+	--global 参数设置为当前用户默认
+	--local  当前设置为当前git库默认
+	--system 当前设置为当前系统默认
+
+
+----设置默认编辑器----
+
+git config --global core.editor <someExecusiveBinary>
+
+参数同上
+
+
+----罗列配置列表----
+
+git config --list
+
+该命令会罗列所有层级中所有的config，但只会使用列表中最后一组作为当前起效的配置
+
+
+----获取某项配置内容----
+
+git config <key>
+
+
+----帮助文件----
+
+git help <verb>
+git <verb> --help
+man git-<verb>
+
+
+----文件的四种状态----
+
+Untracked--未跟踪（未纳入Git追踪的文件）
+Unmodified--未修改（已经存为快照的文件）
+Modified--已修改（当前修改但未暂存的文件）
+Staged--已暂存（已暂存，有待存快照的文件）
+
+
+----检查文件状态----
+
+git status
+
+将返回当前的分支，当前未跟踪/未暂存/未快照的文件
+
+git status -s
+git status --short
+
+status的缩略模式
+
+e.g.
+
+$ git status -s
+
+ M README
+MM Rakefile
+A  lib/git.rb
+M  lib/simplegit.rb
+?? LICENSE.txt
+
+M代表Modified，M出现在右侧表示文件已修改，未暂存（Modified, Unstaged）
+			  M出现在左侧表示文件已修改，已暂存(Modified, Staged)
+			  MM表示文件已暂存，但在暂存之后接着又进行了修改（Staged, then Modified）
+A代表Added，表示新添加至暂存区的文件
+??代表未被Git追踪的文件
+
+
+----将文件(s)添加至Git追踪/将修改提交至暂存区----
+
+git add <fileName1> <fileName2>
+
+只有add之后，修改才会被commit命令提交至快照中
+
+
+----Git默认不追踪规则----
+
+.gitignore 文件
+
+规则
+
+ # 开头 注释
+ / 开头 仅匹配当前目录
+ / 结尾 选中整个目录
+ ! 开头 取反
+
+ * 匹配任意多个字符
+ [abc] 匹配列表中的单个字符
+ [0-9] 匹配自动列表中的单个字符
+ **	匹配任意深度的目录
+
+ e.g.
+
+ # 不追踪 .a 文件
+ *.a
+
+ # 但追踪 lib.a 文件
+ !lib.a
+
+ # 不追踪当前目录下的 TODO 文件
+ /TODO
+
+ # 不追踪整个 build 文件夹
+ build/
+
+ # 不追踪 doc 一级子目录下的.txt文件
+ doc/*.txt
+
+# 不追踪 doc 所有子目录层级下的.pdf文件
+doc/**/*.pdf
+
+
+----详细检查文件变动的差异----
+
+git diff
+
+返回当前正在修改的文件和已暂存的文件之间的差别
+
+git diff --cached
+git diff --staged
+
+返回当前已暂存的文件与已快照之间的文件之间的差别
+
+git diff HEAD
+
+返回当前工作目录下的文件与快照之间的差别
+
+git diff [options] -- <fileName>
+
+只对比指定文件的差异
+
+----将已暂存/已修改的文件变为快照----
+
+git commit
+
+将已暂存的文件提交为快照，在之后需要提交一个message作为备注
+备注中所有以#开头的都将被忽略
+
+git commit -m <SomeString>
+
+将已暂存的文件提交为快照，并将<SomeString>指定为备注
+
+git commit -a 
+
+自动检测本次所有修改过的文件，并创建快照
+
+
+----从暂存区中移除文件----
+
+git rm <fileName>
+
+这将从暂存区移除文件，并移除Git对该文件的追踪，同时从修改区移除文件
+
+git rm -f <fileName>
+git rm --force
+
+若文件已修改且已暂存，则必须使用 -f 来强制删除文件
+Git这样的设计是为了保护未经快照就被删除的文件
+
+git rm --cached <fileName>
+
+仅从暂存中删除文件，但保留修改区的文件
+
+e.g.
+
+git rm log/\*.log
+
+注意反斜杠\的使用，这会让*传入git中，使用git自己的通配方案，而不使用shell的通配模式
+
+----修改文件名-----
+
+git mv <from_FileName> <to_FileName>
+
+移动和改名的方式的是一样的
+
+
+----查看查看提交历史----
+
+git log
+
+以提交时间逆序排列显示历史提交信息
+
+git log -p
+git log --patch
+
+ -p （按补丁格式）显示详细的每次提交的修改内容
+
+git log -<int>
+ 
+ -<int> 仅显示最近n次的提交历史
+
+git log --stat
+
+ --stat 简要显示提交的简介，并生成总结
+
+git log --pretty=oneline
+git log --pretty=short
+git log --pretty=full
+git log --pretty=fuller
+git log --pretty=format:"<someSynax>"
+ --pretty=oneline 仅显示SHA值和commit message
+ --pretty=short/full/fuller 逐级显示Author和Commit的内容
+ --pretty=format:"<someSynax>"用指定的格式显示log
+
+%H  提交对象（commit）的完整哈希字串
+
+%h  提交对象的简短哈希字串
+
+%T  树对象（tree）的完整哈希字串
+
+%t  树对象的简短哈希字串
+
+%P  父对象（parent）的完整哈希字串
+
+%p  父对象的简短哈希字串
+
+%an 作者（author）的名字
+
+%ae 作者的电子邮件地址
+
+%ad 作者修订日期（可以用 --date= 选项定制格式）
+
+%ar 作者修订日期，按多久以前的方式显示（ r 代表 relative）
+
+%cn 提交者(committer)的名字
+
+%ce 提交者的电子邮件地址
+
+%cd 提交日期
+
+%cr 提交日期，按多久以前的方式显示
+
+%s 提交说明
+
+
+git log --graph 图形形式显示log
+
+git log --since --until 以时间线方式限定历史
+
+git log -S<someString> 显示添加或删除了部分字符串的commit（没有空格）
+
+git log -- <path> 只罗列与path相关文件的log（放置在最后，有空格）
+
+
+----撤销操作----
+
+git commit --amend 修改上次的提交（修改提交信息，或者添加未暂存的文件等等）
+
+git reset HEAD <fileName> 将HEAD中对应的文件复写到暂存区（将暂存区回复到未修改的状态）（无视工作区的文件）
+
+git reset --hard HEAD 【危险命令】将工作区和暂存区的所有文件完全重置至上个commit
+
+git reset --hard HEAD^ 退回至上上个commit
+
+git reset --hard HEAD^^ 退回至上上上个commit（以此类推）
+
+git reset --hard HEAD~0 等价于 git reset --hard HEAD
+
+git reset --hard HEAD~2 等价于 git reset --hard HEAD^^
+
+git reflog 显示每一次git操作对应的SHA，可以用于撤销撤销操作
+
+git checkout -- <file> 从暂存区覆盖文件至工作区
+
+
+----删除文件----
+
+rm <fileName>
+
+调用系统的删除命令，删除了工作区的文件，git status会提示有unstaged的修改存在
+
+git rm <fileName>
+
+git会删除工作区的文件并stage至暂存区
+
+
+----
