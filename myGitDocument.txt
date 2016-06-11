@@ -264,6 +264,8 @@ git log -- <path> 只罗列与path相关文件的log（放置在最后，有空�
 
 git commit --amend 修改上次的提交（修改提交信息，或者添加未暂存的文件等等）
 
+git commit --amend --reset-author 修改上次提交的信息，重置作者
+
 git reset HEAD <fileName> 将HEAD中对应的文件复写到暂存区（将暂存区回复到未修改的状态）（无视工作区的文件）
 
 git reset --hard HEAD 【危险命令】将工作区和暂存区的所有文件完全重置至上个commit
@@ -344,3 +346,10 @@ git branch -d <otherBranch>
 删除名为<otherBranch>的分支
 注意，不可以删除当前所处的分支
 
+
+----合并但保留合并记录的方式----
+
+git merge --no-ff -m "blahblahblah" <otherBranch>
+
+普通模式下，如果没有合并冲突（merge conflict），则启用Fast Forward模式，合并后不保留原始分支信息
+可以强制使用 --no-ff 禁用本次merge的Fast Forward，此时本次合并会当成一次commit，
