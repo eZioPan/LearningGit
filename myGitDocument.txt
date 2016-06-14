@@ -124,8 +124,8 @@ git add <fileName1> <fileName2>
  # 不追踪 doc 一级子目录下的.txt文件
  doc/*.txt
 
-# 不追踪 doc 所有子目录层级下的.pdf文件
-doc/**/*.pdf
+ # 不追踪 doc 所有子目录层级下的.pdf文件
+ doc/**/*.pdf
 
 
 ----详细检查文件变动的差异----
@@ -322,6 +322,19 @@ git clone <remoteURL> [<newRepoName>]
 从远程库克隆库
 
 
+----远程库的推送----
+
+git remote -v 查看详细的远程库信息
+
+e.g.
+$git remote -v
+origin git@github.com:someOne/someReposity (fetch)
+origin git@github.com:someOne/someReposity (push)
+
+第一列显示了本地短名称
+第二列显示了远程库的地址
+第三列显示了该地址对应的是fetch需要的地址还是push需要的地址
+
 ----创建/合并/删除分支----
 
 git checkout -b <branchName>
@@ -346,10 +359,51 @@ git branch -d <otherBranch>
 删除名为<otherBranch>的分支
 注意，不可以删除当前所处的分支
 
+git branch -D <otherBranch>
+
+强制删除名为<otherBranch>的分支，无视其是否被合并
+
 
 ----合并但保留合并记录的方式----
 
 git merge --no-ff -m "blahblahblah" <otherBranch>
 
 普通模式下，如果没有合并冲突（merge conflict），则启用Fast Forward模式，合并后不保留原始分支信息
-可以强制使用 --no-ff 禁用本次merge的Fast Forward，此时本次合并会当成一次commit，
+可以强制使用 --no-ff 禁用本次merge的Fast Forward，此时本次合并会当成一次commit
+
+
+----临时存储工作区文件----
+
+git stash 创建临时存储
+
+git stash list 检查临时存储列表
+
+git stash apply <stashID> 将名为<stashID>的stash提取至工作区（不删除stash）
+
+git stash drop <stashID> 删除名为<stashID>的stash
+
+git stash pop <stashID> 将名为<stashID>的stash提取至工作区，并删除stash
+
+
+----链接远程库和本地库----
+
+在使用git clone的时候会将整个远程库都拖下来
+所有的远程分支都被拷贝在短名称定义的分支里
+此时使用
+
+git branch <localName> <<remoteShortName>/<remoteBranchName>>
+
+或
+
+git checkout -b <localName> <<remoteShortName>/<remoteBranchName>>
+
+创建本地的分支，并从本地的origin库中拷贝指定分支至本地库中
+
+此时会自动创建关联，执行pull和push命令时会自动指定到关联的远程库分支
+
+【所以在本地的origin分支是本地分支和远程分支的中转站】
+
+
+当创建了分支而没有关联远程库的时候，使用
+
+git branch --set-upstream <localBranch> <remoteShortName>/<remoteBranchName> 来执行关联
