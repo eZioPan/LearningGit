@@ -8,7 +8,7 @@ git init [<repoName>]
 
 git clone <URL> [<NewName>]
 
-从<URL>地址克隆一个仓库，可以使用<NewName>来进行仓库的重命名
+从 <URL> 地址克隆一个仓库，可以使用 <NewName> 来进行仓库的重命名
 
 
 ----设置用户信息（用户名以及用户邮箱）----
@@ -33,7 +33,7 @@ git config --global core.editor <someExecusiveBinary>
 
 git config --list
 
-该命令会罗列所有层级中所有的config，但只会使用列表中最后一组作为当前起效的配置
+该命令会罗列所有层级中所有的 config，但只会使用列表中最后一组作为当前起效的配置
 
 
 ----获取某项配置内容----
@@ -50,7 +50,7 @@ man git-<verb>
 
 ----文件的四种状态----
 
-Untracked--未跟踪（未纳入Git追踪的文件）
+Untracked--未跟踪（未纳入 Git 追踪的文件）
 Unmodified--未修改（已经存为快照的文件）
 Modified--已修改（当前修改但未暂存的文件）
 Staged--已暂存（已暂存，有待存快照的文件）
@@ -65,7 +65,7 @@ git status
 git status -s
 git status --short
 
-status的缩略模式
+status 的缩略模式
 
 e.g.
 
@@ -77,18 +77,18 @@ A  lib/git.rb
 M  lib/simplegit.rb
 ?? LICENSE.txt
 
-M代表Modified，M出现在右侧表示文件已修改，未暂存（Modified, Unstaged）
-			  M出现在左侧表示文件已修改，已暂存(Modified, Staged)
-			  MM表示文件已暂存，但在暂存之后接着又进行了修改（Staged, then Modified）
-A代表Added，表示新添加至暂存区的文件
-??代表未被Git追踪的文件
+M 代表 Modified，M 出现在右侧表示文件已修改，未暂存（Modified, Unstaged）
+			  M 出现在左侧表示文件已修改，已暂存(Modified, Staged)
+			  MM 表示文件已暂存，但在暂存之后接着又进行了修改（Staged, then Modified）
+A代表 Added，表示新添加至暂存区的文件
+??代表未被 Git 追踪的文件
 
 
-----将文件(s)添加至Git追踪/将修改提交至暂存区----
+----将文件(s)添加至 Git 追踪/将修改提交至暂存区----
 
 git add <fileName1> <fileName2>
 
-只有add之后，修改才会被commit命令提交至快照中
+只有 add 之后，修改才会被 commit 命令提交至快照中
 
 
 ----Git默认不追踪规则----
@@ -121,10 +121,10 @@ git add <fileName1> <fileName2>
  # 不追踪整个 build 文件夹
  build/
 
- # 不追踪 doc 一级子目录下的.txt文件
+ # 不追踪 doc 一级子目录下的 .txt 文件
  doc/*.txt
 
- # 不追踪 doc 所有子目录层级下的.pdf文件
+ # 不追踪 doc 所有子目录层级下的 .pdf 文件
  doc/**/*.pdf
 
 
@@ -151,12 +151,12 @@ git diff [options] -- <fileName>
 
 git commit
 
-将已暂存的文件提交为快照，在之后需要提交一个message作为备注
-备注中所有以#开头的都将被忽略
+将已暂存的文件提交为快照，在之后需要提交一个 message 作为备注
+备注中所有以 # 开头的都将被忽略
 
-git commit -m <SomeString>
+git commit -m <someString>
 
-将已暂存的文件提交为快照，并将<SomeString>指定为备注
+将已暂存的文件提交为快照，并将 <someString> 指定为备注
 
 git commit -a
 
@@ -167,13 +167,13 @@ git commit -a
 
 git rm <fileName>
 
-这将从暂存区移除文件，并移除Git对该文件的追踪，同时从修改区移除文件
+这将从暂存区移除文件，并移除 Git 对该文件的追踪，同时从修改区移除文件
 
 git rm -f <fileName>
 git rm --force
 
 若文件已修改且已暂存，则必须使用 -f 来强制删除文件
-Git这样的设计是为了保护未经快照就被删除的文件
+Git 这样的设计是为了保护未经快照就被删除的文件
 
 git rm --cached <fileName>
 
@@ -183,7 +183,7 @@ e.g.
 
 git rm log/\*.log
 
-注意反斜杠\的使用，这会让*传入git中，使用git自己的通配方案，而不使用shell的通配模式
+注意反斜杠 \ 的使用，这会让 * 传入 git 中，使用 git 自己的通配方案，而不使用 shell 的通配模式
 
 ----修改文件名-----
 
@@ -205,7 +205,7 @@ git log --patch
 
 git log -<int>
 
-	-<int> 仅显示最近n次的提交历史
+	-<int> 仅显示最近 n 次的提交历史
 
 git log --stat
 
@@ -216,9 +216,9 @@ git log --pretty=short
 git log --pretty=full
 git log --pretty=fuller
 git log --pretty=format:"<someSynax>"
-	--pretty=oneline 仅显示SHA值和commit message
-	--pretty=short/full/fuller 逐级显示Author和Commit的内容
-	--pretty=format:"<someSynax>"用指定的格式显示log
+	--pretty=oneline 仅显示 SHA 值和 commit message
+	--pretty=short/full/fuller 逐级显示 Author 和 Commit 的内容
+	--pretty=format:"<someSynax>"用指定的格式显示 log
 
 %H  提交对象（commit）的完整哈希字串
 
@@ -251,13 +251,13 @@ git log --pretty=format:"<someSynax>"
 %s 提交说明
 
 
-git log --graph 图形形式显示log
+git log --graph 图形形式显示 log
 
 git log --since --until 以时间线方式限定历史
 
-git log -S<someString> 显示添加或删除了部分字符串的commit（没有空格）
+git log -S<someString> 显示添加或删除了部分字符串的 commit（没有空格）
 
-git log -- <path> 只罗列与path相关文件的log（放置在最后，有空格）
+git log -- <filePath> 只罗列与 <filePath> 相关文件的 log（放置在最后，有空格）
 
 
 ----撤销操作----
@@ -268,17 +268,17 @@ git commit --amend --reset-author 修改上次提交的信息，重置作者
 
 git reset HEAD <fileName> 将HEAD中对应的文件复写到暂存区（将暂存区回复到未修改的状态）（无视工作区的文件）
 
-git reset --hard HEAD 【危险命令】将工作区和暂存区的所有文件完全重置至上个commit
+git reset --hard HEAD 【危险命令】将工作区和暂存区的所有文件完全重置至上个 commit
 
-git reset --hard HEAD^ 退回至上上个commit
+git reset --hard HEAD^ 退回至上上个 commit
 
-git reset --hard HEAD^^ 退回至上上上个commit（以此类推）
+git reset --hard HEAD^^ 退回至上上上个 commit（以此类推）
 
 git reset --hard HEAD~0 等价于 git reset --hard HEAD
 
 git reset --hard HEAD~2 等价于 git reset --hard HEAD^^
 
-git reflog 显示每一次git操作对应的SHA，可以用于撤销撤销操作
+git reflog 显示每一次 git 操作对应的 SHA，可以用于撤销撤销操作
 
 git checkout -- <file> 从暂存区覆盖文件至工作区
 
@@ -287,35 +287,35 @@ git checkout -- <file> 从暂存区覆盖文件至工作区
 
 rm <fileName>
 
-调用系统的删除命令，删除了工作区的文件，git status会提示有unstaged的修改存在
+调用系统的删除命令，删除了工作区的文件，git status 会提示有 unstaged 的修改存在
 
 git rm <fileName>
 
-git会删除工作区的文件并stage至暂存区
+git会删除工作区的文件并 stage 至暂存区
 
 
 ----远程库的添加----
 
 ssh-keygen -t rsa -C "blahblahblah"
 
-生成ssh-key
+生成 ssh-key
 	-t 使用的加密方式
 	-C 添加的备注
 
 git remote add <shortName> <URL>
 
-关联远程库，<shortName>指定本机的短名称，<URL>指定远程库所在的位置
-github的URL一般是git@github.com:<userName>/<reposityName>
+关联远程库，<shortName> 指定本机的短名称，<URL> 指定远程库所在的位置
+github 的 URL 一般是 git@github.com:<userName>/<reposityName>
 
 git remote push -u <remoteShortName>|<remoteURL> <localBranchName>
 
 向远程库推送文件
 	-u
-	--set-upstream 第一次推送时使用即可
+	--set-upstream 对于同一个分支，第一次推送时使用即可
 	<remoteShortName>/<remoteURL> 远程库短名称/地址
 	<localBranchName> 将要被推送的本地分支名称
 
-<URL>若不指定通讯协议，默认使用 git:// 协议传输，也可以指定为 https:// 协议传输
+<URL> 若不指定通讯协议，默认使用 git:// 协议传输，也可以指定为 https:// 协议传输
 
 git clone <remoteURL> [<newRepoName>]
 
@@ -333,17 +333,17 @@ origin git@github.com:someOne/someReposity (push)
 
 第一列显示了本地短名称
 第二列显示了远程库的地址
-第三列显示了该地址对应的是fetch需要的地址还是push需要的地址
+第三列显示了该地址对应的是 fetch 需要的地址还是 push 需要的地址
 
 ----创建/合并/删除分支----
 
 git checkout -b <branchName>
 
-创建一个名为<branchName>的分支，并移动到该分支上
+创建一个名为 <branchName> 的分支，并移动到该分支上
 
 git branch <branchName>
 
-创建一个名为<branchName>的分支，但不移动到该分支上
+创建一个名为 <branchName> 的分支，但不移动到该分支上
 
 git branch
 
@@ -351,25 +351,25 @@ git branch
 
 git merge <otherBranch>
 
-将名为<otherBranch>的分支的数据合并到当前所处的分支中
-这个操作并不会删除<otherBranch>分支
+将名为 <otherBranch> 的分支的数据合并到当前所处的分支中
+这个操作并不会删除 <otherBranch> 分支
 
 git branch -d <otherBranch>
 
-删除名为<otherBranch>的分支
+删除名为 <otherBranch> 的分支
 注意，不可以删除当前所处的分支
 
 git branch -D <otherBranch>
 
-强制删除名为<otherBranch>的分支，无视其是否被合并
+强制删除名为 <otherBranch> 的分支，无视其是否被合并
 
 
 ----合并但保留合并记录的方式----
 
 git merge --no-ff -m "blahblahblah" <otherBranch>
 
-普通模式下，如果没有合并冲突（merge conflict），则启用Fast Forward模式，合并后不保留原始分支信息
-可以强制使用 --no-ff 禁用本次merge的Fast Forward，此时本次合并会当成一次commit
+普通模式下，如果没有合并冲突（merge conflict），则启用 Fast Forward 模式，合并后不保留原始分支信息
+可以强制使用 --no-ff 禁用本次 merge 的 Fast Forward，此时本次合并会当成一次 commit
 
 
 ----临时存储工作区文件----
@@ -378,16 +378,16 @@ git stash 创建临时存储
 
 git stash list 检查临时存储列表
 
-git stash apply <stashID> 将名为<stashID>的stash提取至工作区（不删除stash）
+git stash apply <stashID> 将名为 <stashID> 的 stash 提取至工作区（不删除 stash）
 
-git stash drop <stashID> 删除名为<stashID>的stash
+git stash drop <stashID> 删除名为 <stashID> 的 stash
 
-git stash pop <stashID> 将名为<stashID>的stash提取至工作区，并删除stash
+git stash pop <stashID> 将名为 <stashID> 的 stash 提取至工作区，并删除 stash
 
 
 ----链接远程库和本地库----
 
-在使用git clone的时候会将整个远程库都拖下来
+在使用 git clone 的时候会将整个远程库都拖下来
 所有的远程分支都被拷贝在短名称定义的分支里
 此时使用
 
@@ -397,13 +397,25 @@ git branch <localName> <<remoteShortName>/<remoteBranchName>>
 
 git checkout -b <localName> <<remoteShortName>/<remoteBranchName>>
 
-创建本地的分支，并从本地的origin库中拷贝指定分支至本地库中
+创建本地的分支，并从本地的 origin 库中拷贝指定分支至本地库中
 
-此时会自动创建关联，执行pull和push命令时会自动指定到关联的远程库分支
+此时会自动创建关联，执行 pull 和 push 命令时会自动指定到关联的远程库分支
 
-【所以在本地的origin分支是本地分支和远程分支的中转站】
+【所以在本地的 origin 分支是本地分支和远程分支的中转站】
 
 
 当创建了分支而没有关联远程库的时候，使用
 
-git branch --set-upstream <localBranch> <remoteShortName>/<remoteBranchName> 来执行关联
+git branch --set-upstream <remoteShortName>/<remoteBranchName> <localBranch> 来执行关联
+
+
+----推送分支至远程库----
+
+git push <remoteShortName> <localBranchName>
+
+将本地名为 <localBranchName> 的分支推送到远程库对应名字的分支中
+若远程库中没有对应名字的分支，则在远程库中创建
+
+git pull
+
+从远程库获取当前所在分支的信息
