@@ -1,9 +1,9 @@
-----新建一个git仓库----
+---- 新建一个 git 仓库 ----
 
 git init [<repoName>]
 
 
-----克隆一个git仓库----
+---- 克隆一个 git 仓库 ----
 
 
 git clone <URL> [<NewName>]
@@ -11,7 +11,7 @@ git clone <URL> [<NewName>]
 从 <URL> 地址克隆一个仓库，可以使用 <NewName> 来进行仓库的重命名
 
 
-----设置用户信息（用户名以及用户邮箱）----
+---- 设置用户信息（用户名以及用户邮箱） ----
 
 git config --global user.name <someName>
 git cinfig --global user.email <someUser@someplace>
@@ -22,33 +22,33 @@ git cinfig --global user.email <someUser@someplace>
 	--system 当前设置为当前系统默认
 
 
-----设置默认编辑器----
+---- 设置默认编辑器 ----
 
 git config --global core.editor <someExecusiveBinary>
 
 参数同上
 
 
-----罗列配置列表----
+---- 罗列配置列表 ----
 
 git config --list
 
 该命令会罗列所有层级中所有的 config，但只会使用列表中最后一组作为当前起效的配置
 
 
-----获取某项配置内容----
+---- 获取某项配置内容 ----
 
 git config <key>
 
 
-----帮助文件----
+---- 帮助文件 ----
 
 git help <verb>
 git <verb> --help
 man git-<verb>
 
 
-----文件的四种状态----
+---- 文件的四种状态 ----
 
 Untracked--未跟踪（未纳入 Git 追踪的文件）
 Unmodified--未修改（已经存为快照的文件）
@@ -56,7 +56,7 @@ Modified--已修改（当前修改但未暂存的文件）
 Staged--已暂存（已暂存，有待存快照的文件）
 
 
-----检查文件状态----
+---- 检查文件状态 ----
 
 git status
 
@@ -84,14 +84,14 @@ A代表 Added，表示新添加至暂存区的文件
 ??代表未被 Git 追踪的文件
 
 
-----将文件(s)添加至 Git 追踪/将修改提交至暂存区----
+---- 将文件(s)添加至 Git 追踪/将修改提交至暂存区 ----
 
 git add <fileName1> <fileName2>
 
 只有 add 之后，修改才会被 commit 命令提交至快照中
 
 
-----Git默认不追踪规则----
+---- Git 默认不追踪规则 ----
 
 .gitignore 文件
 
@@ -128,7 +128,7 @@ git add <fileName1> <fileName2>
  doc/**/*.pdf
 
 
-----详细检查文件变动的差异----
+---- 详细检查文件变动的差异 ----
 
 git diff
 
@@ -147,7 +147,7 @@ git diff [options] -- <fileName>
 
 只对比指定文件的差异
 
-----将已暂存/已修改的文件变为快照----
+---- 将已暂存/已修改的文件变为快照 ----
 
 git commit
 
@@ -163,7 +163,7 @@ git commit -a
 自动检测本次所有修改过的文件，并创建快照
 
 
-----从暂存区中移除文件----
+---- 从暂存区中移除文件 ----
 
 git rm <fileName>
 
@@ -185,14 +185,14 @@ git rm log/\*.log
 
 注意反斜杠 \ 的使用，这会让 * 传入 git 中，使用 git 自己的通配方案，而不使用 shell 的通配模式
 
-----修改文件名-----
+---- 修改文件名 ----
 
 git mv <from_FileName> <to_FileName>
 
 移动和改名的方式的是一样的
 
 
-----查看查看提交历史----
+---- 查看查看提交历史 ----
 
 git log
 
@@ -255,12 +255,16 @@ git log --graph 图形形式显示 log
 
 git log --since --until 以时间线方式限定历史
 
+git log --grep 显示做出了特定修改的历史
+
 git log -S<someString> 显示添加或删除了部分字符串的 commit（没有空格）
 
 git log -- <filePath> 只罗列与 <filePath> 相关文件的 log（放置在最后，有空格）
 
+git log --abbrev-commit 只显示SHA-1值的前几位
 
-----撤销操作----
+
+---- 撤销操作 ----
 
 git commit --amend 修改上次的提交（修改提交信息，或者添加未暂存的文件等等）
 
@@ -283,7 +287,7 @@ git reflog 显示每一次 git 操作对应的 SHA，可以用于撤销撤销操
 git checkout -- <file> 从暂存区覆盖文件至工作区
 
 
-----删除文件----
+---- 删除文件 ----
 
 rm <fileName>
 
@@ -294,7 +298,7 @@ git rm <fileName>
 git会删除工作区的文件并 stage 至暂存区
 
 
-----远程库的添加----
+---- 远程库的添加 ----
 
 ssh-keygen -t rsa -C "blahblahblah"
 
@@ -321,8 +325,12 @@ git clone <remoteURL> [<newRepoName>]
 
 从远程库克隆库
 
+git fetch <remoteShortName>
 
-----远程库的推送----
+从远程库获取所有分支的内容，但并不与本地库中对应的分支进行合并
+
+
+---- 远程库的推送 ----
 
 git remote -v 查看详细的远程库信息
 
@@ -335,7 +343,19 @@ origin git@github.com:someOne/someReposity (push)
 第二列显示了远程库的地址
 第三列显示了该地址对应的是 fetch 需要的地址还是 push 需要的地址
 
-----创建/合并/删除分支----
+git remote show <reomoteShortName>
+
+显示短名称为 <remoteShortName> 的远程库的信息
+
+git remote rename <oldRemoteShortName> <newRemoteShortName>
+
+对远程库的简称进行重命名
+
+git remote rm <remoteShortName>
+
+删除已拉取到本地库中的远程库
+
+---- 创建/合并/删除分支 ----
 
 git checkout -b <branchName>
 
@@ -364,7 +384,7 @@ git branch -D <otherBranch>
 强制删除名为 <otherBranch> 的分支，无视其是否被合并
 
 
-----合并但保留合并记录的方式----
+---- 合并但保留合并记录的方式 ----
 
 git merge --no-ff -m "blahblahblah" <otherBranch>
 
@@ -372,7 +392,7 @@ git merge --no-ff -m "blahblahblah" <otherBranch>
 可以强制使用 --no-ff 禁用本次 merge 的 Fast Forward，此时本次合并会当成一次 commit
 
 
-----临时存储工作区文件----
+---- 临时存储工作区文件 ----
 
 git stash 创建临时存储
 
@@ -385,7 +405,7 @@ git stash drop <stashID> 删除名为 <stashID> 的 stash
 git stash pop <stashID> 将名为 <stashID> 的 stash 提取至工作区，并删除 stash
 
 
-----链接远程库和本地库----
+---- 链接远程库和本地库 ----
 
 在使用 git clone 的时候会将整个远程库都拖下来
 所有的远程分支都被拷贝在短名称定义的分支里
@@ -409,7 +429,7 @@ git checkout -b <localName> <<remoteShortName>/<remoteBranchName>>
 git branch --set-upstream <remoteShortName>/<remoteBranchName> <localBranch> 来执行关联
 
 
-----推送分支至远程库----
+---- 推送分支至远程库 ----
 
 git push <remoteShortName> <localBranchName>
 
@@ -419,3 +439,117 @@ git push <remoteShortName> <localBranchName>
 git pull
 
 从远程库获取当前所在分支的信息
+
+
+---- 标签的创建 ----
+
+git tag <tagName> [<commitID>]（<tagName> 不加引号）
+
+通过上述命令为 <commitID> 对应的快照贴一个名为 <tagName> 的轻量（lightweight）标签
+
+git tag
+
+显示当前分支下的所有标签
+
+git tag -l "<someTagName>"
+
+只显示指定的Tag，<someTagName> 可以使用正则匹配
+
+git tag -a <tagName> -m <tagMessage> [<commitID>]（<tagName> 不加引号）
+
+	-a,--annotate
+
+创建一个附注标签（annotated）并附带保存一个 <tagMessage>
+
+git tag -s <tagName> -m <tagMessage> [<commitID>]
+
+	-s --signed
+
+创建一个用 GnuPG (GPG) 产生的秘钥签名的 tag
+
+轻量标签只是一个指向某个commit的指针
+附注标签则是一个完整的Object
+
+
+---- 标签的删除 ----
+
+git show <tagName>
+
+显示名为 <tagName> 的标签的详细内容
+
+git tag -d <tagName>
+
+删除指定的Tag
+
+默认情况下，git push 不会推送标签物体，需要使用
+
+git push <remoteShortName> <tagName>
+
+来推送指定的标签
+
+或者，使用
+
+git push --tags
+
+将本分支下所有的标签都推送至远程库
+
+若要删除已推送至远端的的标签，需要先删除本地的标签
+
+git tag -d <tagName>
+
+接着再使用
+
+git push <remoteShortName> :refs/tags/<tagName>
+
+将这个修改推送至远端库
+
+checkout -b <newBranchName> <tagName>
+
+不能直接checkout一个标签，需要为某个标签创建一个新的branch来保存对它的修改
+
+
+---- 配置 Git ----
+
+git config --<activeSpace> --<configKey> --<configValue>
+
+配置 Git 的通用语句
+
+	--<activeSpace> 起效作用范围 local（当前库）、global（当前使用者）、system（当前系统）
+	--<configKey> 一般来说会有两层（也就是 stringA.stringB），来区分这个Key是哪个分类下的什么键
+
+Git 别名
+
+git config --<activeSpace> alias.<shortCommandName> <originalCommand>
+
+使用这个命令配置Git命令的简称
+
+若<originalCommand>以 ! 开头，则会执行系统命令
+
+e.g.
+
+git config --local alias.co checkout
+git config --local alias.unstage "reset HEAD --"
+git cinfig --local alias.last "log -1 HEAD"
+
+
+---- Git 存储原理 ----
+
+Git 使用文件快照（snapshot）的方式存储不同版本的文件
+
+文件快照包含
+
+(1) blob 对象（blob object）：每个 blob 对象存储当前快照下的一个实际文件数据，并附带一个校验和
+(2) tree 对象（tree object）:每个 tree 对象存储了当前快照下的文件目录结构以及对应的 blob 索引号（即 blob 校验和），并附带一个校验和
+(3) commit 对象（commit object）：<1>每个 commit 对象存储了当前快照下的 tree 索引号（即 tree 校验和）、提交信息（author、email），并附带一个校验和
+								 <2>若这个 commit 不是初始 commit，则除了上述内容之外，还包含指向上一个 commit 索引号（即 commit 校验和）的指针（parent）
+
+branch就是一个指向某个特定 commit 对象的指针
+
+而git branch <newBranchName> 就是创建了一个新的指向当前 commit 对象的指针
+
+HEAD 就是一个特殊的指针，它总是指向当前正在操作的分支指针
+
+git log --decorate 可以查看各个branch当前指向的commit对象
+
+git checkout <branchName> 的作用就是将HEAD指针指向某一个branch指针，同时将快照文件复写到工作目录（如果原来的工作目录中的文件都被暂存）
+
