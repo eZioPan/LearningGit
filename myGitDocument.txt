@@ -162,6 +162,9 @@ git commit -a
 
 自动检测本次所有修改过的文件，并创建快照
 
+git commit --date=
+
+设置提交的时间
 
 ---- 从暂存区中移除文件 ----
 
@@ -263,6 +266,7 @@ git log -- <filePath> 只罗列与 <filePath> 相关文件的 log（放置在最
 
 git log --abbrev-commit 只显示SHA-1值的前几位
 
+git blame <file> 查看指定文件的每一行的修改记录
 
 ---- 撤销操作 ----
 
@@ -281,6 +285,8 @@ git reset --hard HEAD^^ 退回至上上上个 commit（以此类推）
 git reset --hard HEAD~0 等价于 git reset --hard HEAD
 
 git reset --hard HEAD~2 等价于 git reset --hard HEAD^^
+
+git reset --soft HEAD 移动至上一个 commit，但保留所有的索引号
 
 git reflog 显示每一次 git 操作对应的 SHA，可以用于撤销撤销操作
 
@@ -316,14 +322,14 @@ git remote push -u <remoteShortName>|<remoteURL> <localBranchName>
 向远程库推送文件
 	-u
 	--set-upstream 对于同一个分支，第一次推送时使用即可
-	<remoteShortName>/<remoteURL> 远程库短名称/地址
+	<remoteShortName>|<remoteURL> 远程库短名称/地址
 	<localBranchName> 将要被推送的本地分支名称
 
 <URL> 若不指定通讯协议，默认使用 git:// 协议传输，也可以指定为 https:// 协议传输
 
-git clone <remoteURL> [<newRepoName>]
+git clone <remoteURL> [<newDirName>] [-o|-origin <newTrackingRepoName>]
 
-从远程库克隆库
+从远程库地址 <remoteURL> 克隆库至本地名为 <newDirName> 的目录， 并将跟踪分支的名称从 origin 变为 <newTrackingRepoName> 设定的名称
 
 git fetch <remoteShortName>
 
@@ -345,7 +351,11 @@ origin git@github.com:someOne/someReposity (push)
 
 git remote show <reomoteShortName>
 
-显示短名称为 <remoteShortName> 的远程库的信息
+显示短名称为 <remoteShortName> 的远程库的详细信息信息
+
+git ls-remote <remoteShortName>|<URL>
+
+显示短名称为 <remoteShortName> 或地址为 <URL> 的库的分支、标签信息信息
 
 git remote rename <oldRemoteShortName> <newRemoteShortName>
 
@@ -382,6 +392,14 @@ git branch -d <otherBranch>
 git branch -D <otherBranch>
 
 强制删除名为 <otherBranch> 的分支，无视其是否被合并
+
+git branch --merged
+
+查看所有未被删除的分支中，已被完全合并至当前分支的分支
+
+git branch --no-merged
+
+查看所有未被删除的分支中，未被完全合并至当前分支的分支
 
 
 ---- 合并但保留合并记录的方式 ----
@@ -503,10 +521,13 @@ git push <remoteShortName> :refs/tags/<tagName>
 
 将这个修改推送至远端库
 
-checkout -b <newBranchName> <tagName>
+git checkout -b <newBranchName> <tagName>
 
 不能直接checkout一个标签，需要为某个标签创建一个新的branch来保存对它的修改
 
+git checkout tags/<tagName>
+
+若标签与分支重名，则指定从tags命令中获取分支
 
 ---- 配置 Git ----
 
@@ -549,7 +570,62 @@ branch就是一个指向某个特定 commit 对象的指针
 
 HEAD 就是一个特殊的指针，它总是指向当前正在操作的分支指针
 
-git log --decorate 可以查看各个branch当前指向的commit对象
+git log --decorate 可以查看各个 branch 当前指向的 commit 对象
 
-git checkout <branchName> 的作用就是将HEAD指针指向某一个branch指针，同时将快照文件复写到工作目录（如果原来的工作目录中的文件都被暂存）
+git checkout <branchName> 的作用就是将 HEAD 指针指向某一个 branch 指针，同时将快照文件复写到工作目录（如果原来的工作目录中的文件都被暂存）
 
+
+---- Git 合并原理 ----
+
+假设如下快照结构
+
+			   ->B0
+A0 -> A1 -> A2
+
+
+master 处于 A2，分支 devB 处于 B0
+
+此时，从 master 处合并 devB，就是将 master 的指针直接指向 B0 快照
+
+接着假设如下快照结构
+
+A0 -> A1 -> A2 -> B0
+			   -> C0 -> C1
+
+master 处于 B0， 分支 devC 经过了 C0 到达了 C1
+
+此时从 master 合并 devC，Git 会自动向父级搜寻 master 和 devC 所在快照的最近的一个共同祖先（Common Ancestor），也就是 A2
+
+接着合并 master 所在的 B0 快照、devC 所在的 C1 快照、共同祖先 C4 快照，如果合并成功，则产生如下快照结构
+
+A0 -> A1 -> A2 -> B0	   -> B1
+			   -> C0 -> C1 ->
+
+即产生一个 B1 快照，master 指向 B1。B1 有两个父级（Parent），分别是 B0 和 C1
+
+若合并不成功，则等待人工修复，并提交，此时也会形成与上面相同的快照结构
+
+
+---- 远程库原理 ----
+
+只有 push 命令才能真正的影响在远程计算机上的代码库
+
+其他的操作都是在查找/删除存在于本地的远程跟踪分支（remote-tracking branch）
+
+
+
+
+
+
+
+
+
+
+
+
+
+---- 其他命令 ----
+rebase
+repack
+cherry-pick
+rebase -i （非常重要的整理Commit的方法）
