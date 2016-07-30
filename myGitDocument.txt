@@ -40,6 +40,10 @@ git config --list
 
 git config <key>
 
+---- git 中正常显示中 ----
+
+git config --global core.quotepath false
+
 
 ---- 帮助文件 ----
 
